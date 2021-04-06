@@ -1,76 +1,45 @@
 package com.github.ericliucn.pvpswitch.manipulators;
 
+import com.github.ericliucn.pvpswitch.Keys;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
-import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.manipulator.DataManipulator;
+import org.spongepowered.api.data.manipulator.mutable.common.AbstractBooleanData;
 import org.spongepowered.api.data.merge.MergeFunction;
-import org.spongepowered.api.data.value.BaseValue;
-import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
 import java.util.Optional;
-import java.util.Set;
 
-public class PVPData implements DataManipulator<PVPData, ImmutablePVP> {
+public class PVPData extends AbstractBooleanData<PVPData, ImmutablePVP> {
+
+    protected PVPData(boolean value) {
+        super(Keys.PVP_ENABLE, value, true);
+    }
 
     @Override
     public Optional<PVPData> fill(DataHolder dataHolder, MergeFunction overlap) {
-        return Optional.empty();
+        PVPData merged = overlap.merge(this, dataHolder.get(PVPData.class).orElse(new PVPData(true)));
+        setValue(merged.value);
+        return Optional.of(this);
     }
 
     @Override
     public Optional<PVPData> from(DataContainer container) {
-
-        return Optional.empty();
-    }
-
-    @Override
-    public <E> PVPData set(Key<? extends BaseValue<E>> key, E value) {
-        return null;
-    }
-
-    @Override
-    public <E> Optional<E> get(Key<? extends BaseValue<E>> key) {
-        return Optional.empty();
-    }
-
-    @Override
-    public <E, V extends BaseValue<E>> Optional<V> getValue(Key<V> key) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean supports(Key<?> key) {
-        return false;
+        container.getBoolean(Keys.PVP_ENABLE.getQuery()).ifPresent(aBoolean -> this.value = aBoolean);
+        return Optional.of(this);
     }
 
     @Override
     public PVPData copy() {
-        return null;
-    }
-
-    @Override
-    public Set<Key<?>> getKeys() {
-        return null;
-    }
-
-    @Override
-    public Set<ImmutableValue<?>> getValues() {
-        return null;
+        return new PVPData(this.value);
     }
 
     @Override
     public ImmutablePVP asImmutable() {
-        return null;
+        return new ImmutablePVP(this.value);
     }
 
     @Override
     public int getContentVersion() {
-        return 0;
+        return 1;
     }
 
-    @Override
-    public DataContainer toContainer() {
-        return null;
-    }
 }

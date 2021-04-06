@@ -1,53 +1,24 @@
 package com.github.ericliucn.pvpswitch.manipulators;
 
-import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
-import org.spongepowered.api.data.value.BaseValue;
-import org.spongepowered.api.data.value.immutable.ImmutableValue;
+import com.github.ericliucn.pvpswitch.Keys;
+import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableBooleanData;
+import org.spongepowered.api.data.value.ValueFactory;
+import org.spongepowered.api.data.value.mutable.Value;
 
-import java.util.Optional;
-import java.util.Set;
+public class ImmutablePVP extends AbstractImmutableBooleanData<ImmutablePVP, PVPData> {
 
-public class ImmutablePVP implements ImmutableDataManipulator<ImmutablePVP, PVPData> {
+
+    protected ImmutablePVP(boolean value) {
+        super(Keys.PVP_ENABLE, value, true);
+    }
 
     @Override
     public PVPData asMutable() {
-        return null;
+        return new PVPData(this.value);
     }
 
     @Override
     public int getContentVersion() {
-        return 0;
-    }
-
-    @Override
-    public DataContainer toContainer() {
-        return null;
-    }
-
-    @Override
-    public <E> Optional<E> get(Key<? extends BaseValue<E>> key) {
-        return Optional.empty();
-    }
-
-    @Override
-    public <E, V extends BaseValue<E>> Optional<V> getValue(Key<V> key) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean supports(Key<?> key) {
-        return false;
-    }
-
-    @Override
-    public Set<Key<?>> getKeys() {
-        return null;
-    }
-
-    @Override
-    public Set<ImmutableValue<?>> getValues() {
-        return null;
+        return 1;
     }
 }
